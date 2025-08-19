@@ -1,5 +1,4 @@
 local ContextActionService = game:GetService("ContextActionService")
-local player = game.Players.LocalPlayer
 local keyMapper = require(game.ReplicatedStorage.Shared.Modules.KeyMapper)
 
 type keyType = 'Xbox' | 'PC'
@@ -32,8 +31,9 @@ end
 
 
 local function BindKeybind(index: string, keybindTable: keyTableType, priority: number, callback: CallBack)
+    
     local inputTable = {
-         keyMapper.GetEnumFromString(keybindTable['Xbox']),
+        keyMapper.GetEnumFromString(keybindTable['Xbox']),
          keyMapper.GetEnumFromString(keybindTable['PC'])
     }
 

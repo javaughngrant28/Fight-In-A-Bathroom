@@ -123,6 +123,7 @@ end
 
 -- Function to map a string representation back to the Enum input
 function KeyMapper.GetEnumFromString(inputString)
+	if not inputString then return end
 	return reverseMapping[inputString] or error(`Unknown Input: {inputString}`)
 end
 

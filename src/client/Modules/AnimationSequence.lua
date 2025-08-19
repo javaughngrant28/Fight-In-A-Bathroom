@@ -29,7 +29,6 @@ function AnimationSequence.Play(self: AnimationSequenceType, playbackSpeed: numb
     if not animationTrack then warn(`Animation Tack Not Found Combo: {self.Combo}`,animationTracks) return end
 
     animationTrack:Play(fadeTime,weight,playbackSpeed)
-    print(self.Combo,#self.AnimationLoader.ANIMATIONTRACKS)
 
     local newCombo = self.Combo + 1
     if newCombo > #self.AnimationLoader.ANIMATIONTRACKS then

@@ -15,7 +15,7 @@ local function KeybindActivated()
 end
 
 local function OnKeybindAttributeChanged(value: string)
-    local keyName = Player:GetAttribute('XboxKeybind')
+    local keyName = Player:GetAttribute('MouseKeybind')
     ContextAction.BindKeybind('XboxKeybind',{ Xbox = keyName},1,KeybindActivated)
 
     return function ()

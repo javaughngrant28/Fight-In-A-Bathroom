@@ -1,6 +1,6 @@
 local AnimationUtil = {}
 
-function AnimationUtil.LoadAnimationTrack(character: Model, animationID: string): AnimationTrack
+function AnimationUtil.LoadAnimationTrack(character: Model, animation: string | Animation): AnimationTrack
     local humanoid = character:FindFirstChildOfClass("Humanoid")
     if not humanoid then
         warn("No Humanoid found in character")
@@ -9,25 +9,30 @@ function AnimationUtil.LoadAnimationTrack(character: Model, animationID: string)
 
     local animator = humanoid:FindFirstChildOfClass("Animator")
     if not animator then
-        animator = Instance.new("Animator")
-        animator.Parent = humanoid
+        warn(`No animator found in {character}`)
+        return nil
     end
 
-    local animation = Instance.new("Animation")
-    animation.AnimationId = animationID
+    local newAnimaton: Animation
 
-    local track = animator:LoadAnimation(animation)
+    if animation:IsA('Animation') then
+        newAnimaton = animation:Clone()
+        else
+            newAnimaton = Instance.new('Animation')
+            newAnimaton.AnimationId = animation
+    end
+
+    local track = animator:LoadAnimation(newAnimaton)
     animation:Destroy()
     return track
 end
 
-function AnimationUtil.CreateAnimationTracks(character: Model, animationIDs: {[string]: string}): {[string]: AnimationTrack}
+function AnimationUtil.CreateAnimationTracks(character: Model, animations: {[string | number]: Animation | string}): {[string | number]: AnimationTrack}
     local animationTracks = {}
-    for name, id in pairs(animationIDs) do
+    for index, id in pairs(animations) do
         local track = AnimationUtil.LoadAnimationTrack(character, id)
-        if track then
-            animationTracks[name] = track
-        end
+        if not track then continue end
+        animationTracks[index] = track
     end
     return animationTracks
 end

@@ -1,47 +1,45 @@
-local RunService = game:GetService('RunService')
-local Players = game:GetService('Players')
-local LocalPlayer = Players.LocalPlayer
+--[[
+    CharacterLeanScript - This script makes characters slightly lean in the direction they are moving.
 
-local tiltConnection: RBXScriptConnection = nil  -- Connection to manage RenderStepped
+    Each Step the character's Root joint Transform is updated based on the character's velocity.
+--]]
 
-local MaxTiltAngle = 8
+local RunService = game:GetService("RunService")
+local StarterPlayer = game:GetService("StarterPlayer")
 
--- Function to start the tilting effect
-local function startTilting(character: Model)
-	local humanoid = character:WaitForChild('Humanoid', 30)
-	local rootPart = character:WaitForChild('HumanoidRootPart', 30)
-	local rootJoint = rootPart:WaitForChild('RootJoint', 30)
-	local rootC0 = rootJoint.C0
-
-	local tilt = CFrame.new()
-
-	tiltConnection = RunService.RenderStepped:Connect(function(delta)
-		local moveDirection = rootPart.CFrame:VectorToObjectSpace(humanoid.MoveDirection)
-		tilt = tilt:Lerp(CFrame.Angles(math.rad(-moveDirection.Z) * MaxTiltAngle, math.rad(-moveDirection.X) * MaxTiltAngle, 0), 0.2 ^ (1 / (delta * 60)))
-		rootJoint.C0 = rootC0 * tilt
-	end)
+-- Since this script has RunContext of Client, it will run anywhere regardless of its parent.
+-- We only want it to run when it's parented to a character so we'll return immediately if it's in StarterCharacterScripts.
+if script.Parent == StarterPlayer.StarterCharacterScripts then
+    return
 end
 
--- Function to stop the tilting effect
-local function stopTilting()
-	if tiltConnection then
-		tiltConnection:Disconnect()
-		tiltConnection = nil
-	end
+local character = script.Parent
+-- Characters are not replicated atomically so we need to wait for children
+local humanoid = character:WaitForChild("Humanoid")
+local root = character:WaitForChild("HumanoidRootPart")
+local rootJoint = character:WaitForChild("LowerTorso"):WaitForChild("Root")
+
+local ROLL_ANGLE = math.rad(15)
+local PITCH_ANGLE = math.rad(5)
+local LEAN_SPEED = 10
+
+local leanCFrame = CFrame.new()
+
+local function onStepped(_: number, deltaTime: number)
+    local moveVelocity = humanoid:GetMoveVelocity()
+    local relativeVelocity = root.CFrame:VectorToObjectSpace(moveVelocity)
+
+    -- Calculate pitch and roll based on the character's relative velocity
+    local pitch = 0
+    local roll = 0
+    if humanoid.WalkSpeed ~= 0 then
+        pitch = math.clamp(relativeVelocity.Z / humanoid.WalkSpeed, -1, 1) * PITCH_ANGLE
+        roll = -math.clamp(relativeVelocity.X / humanoid.WalkSpeed, -1, 1) * ROLL_ANGLE
+    end
+
+    leanCFrame = leanCFrame:Lerp(CFrame.Angles(pitch, 0, roll), math.min(deltaTime * LEAN_SPEED, 1))
+    -- Apply the leaning to the rootJoint's Transform
+    rootJoint.Transform = leanCFrame * rootJoint.Transform
 end
 
--- Character added/removed event handlers
-local function onCharacterAdded(character: Model)
-	if not character then return end
-	startTilting(character)
-end
-
-local function onCharacterRemoving()
-	stopTilting()
-end
-
-
-onCharacterAdded(LocalPlayer.Character)
-
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-LocalPlayer.CharacterRemoving:Connect(onCharacterRemoving)
+RunService.Stepped:Connect(onStepped)

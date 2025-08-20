@@ -4,7 +4,7 @@ export type FightAttributesType = {
 }
 
 local function CreateFightAttributes(player: Player)
-    player:SetAttribute('CombatEnabled',false)
+    player:SetAttribute('CombatEnabled',true)
 end
 
 

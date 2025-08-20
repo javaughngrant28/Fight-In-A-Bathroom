@@ -3,7 +3,7 @@
   "tree": {
     "$className": "DataModel",
 
-   "ReplicatedStorage": {
+    "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
       "Shared": {
         "$className": "Folder",
@@ -11,12 +11,14 @@
       },
       "Events": {
         "$className": "Folder",
-        "GENERAL": {
-          "$className":"RemoteEvent"
-        },
-        "$ignoreUnknownInstances": true
-      }
-
+        "Fight": {
+          "$className": "Folder",
+          "Punch": {
+            "$className": "RemoteEvent"
+          }
+        }
+      },
+      "$ignoreUnknownInstances": true
     },
 
     "ServerScriptService": {
@@ -26,22 +28,22 @@
 
     "ServerStorage": {
       "$className": "ServerStorage",
-      "Libraries":{
-        "$path": "src/libraries",
-        "$className": "Folder"
-      },
-       "$ignoreUnknownInstances": true
-    },
-
-    "StarterGui":{
-      "$className": "StarterGui",
-      "Interface":{
-        "$path": "src/interface",
-        "$className":"Folder"
+      "Libraries": {
+        "$className": "Folder",
+        "$path": "src/libraries"
       },
       "$ignoreUnknownInstances": true
     },
-    
+
+    "StarterGui": {
+      "$className": "StarterGui",
+      "Interface": {
+        "$className": "Folder",
+        "$path": "src/interface"
+      },
+      "$ignoreUnknownInstances": true
+    },
+
     "StarterPlayer": {
       "$className": "StarterPlayer",
       "StarterPlayerScripts": {
@@ -49,10 +51,10 @@
           "$className": "Folder",
           "$path": "src/client"
         },
-      "$ignoreUnknownInstances": true
+        "$ignoreUnknownInstances": true
       }
     },
-    
+
     "SoundService": {
       "$properties": {
         "RespectFilteringEnabled": true

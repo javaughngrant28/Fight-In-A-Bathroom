@@ -3,11 +3,16 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local MaidModule = require(ReplicatedStorage.Shared.Libraries.Maid)
 local Observers = require(game.ReplicatedStorage.Shared.Libraries.Observers)
+local GetDistance = require(script.Parent.GetDistance)
 
 
 
 local PunchConnector = {}
 PunchConnector.__index = PunchConnector
+
+PunchConnector.MAX_DISTANCE = 7
+PunchConnector.DAMAGE = 5
+
 
 export type PunchConnectorType = typeof(setmetatable({} :: {
     _MAID: MaidModule.Maid,
@@ -15,6 +20,8 @@ export type PunchConnectorType = typeof(setmetatable({} :: {
     PLAYER: Player,
     CHARACTER: Model?,
     HUMANOID: Humanoid?,
+    MAX_DISTANCE: number,
+    DAMAGE: number,
 
     StopCharacterAddedObserver: ()->(),
 }, PunchConnector))
@@ -42,11 +49,20 @@ function PunchConnector.ObserveCharacterAdded(self: PunchConnectorType)
     end)
 end
 
+function PunchConnector.DealDamage(self: PunchConnectorType, target: Model)
+    local targetHumanoid = target:FindFirstChildWhichIsA('Humanoid') :: Humanoid
+    targetHumanoid:TakeDamage(self.DAMAGE)
+end
+
+
 function PunchConnector.Fire(self: PunchConnectorType, target: Model)
     if not self.CHARACTER then return end
+    
+    local Distance = GetDistance.BetweenModels(self.CHARACTER,target)
+    if Distance > self.MAX_DISTANCE then return end
     if self.HUMANOID.Health <= 0 then return end
 
-    print(target)
+    self:DealDamage(target)
 end
 
 function PunchConnector.Destroy(self: PunchConnectorType)

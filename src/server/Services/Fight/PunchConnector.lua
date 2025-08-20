@@ -4,6 +4,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local MaidModule = require(ReplicatedStorage.Shared.Libraries.Maid)
 local Observers = require(game.ReplicatedStorage.Shared.Libraries.Observers)
 local GetDistance = require(script.Parent.GetDistance)
+local EffectAPI = require(game.ServerScriptService.Services.Effects.EffectAPI)
 
 
 
@@ -57,12 +58,14 @@ end
 
 function PunchConnector.Fire(self: PunchConnectorType, target: Model)
     if not self.CHARACTER then return end
+    local targetRootPart = target:FindFirstChild('HumanoidRootPart') or target.PrimaryPart :: BasePart
     
     local Distance = GetDistance.BetweenModels(self.CHARACTER,target)
     if Distance > self.MAX_DISTANCE then return end
     if self.HUMANOID.Health <= 0 then return end
 
     self:DealDamage(target)
+    EffectAPI.Create('Hit',targetRootPart.CFrame.Position)
 end
 
 function PunchConnector.Destroy(self: PunchConnectorType)

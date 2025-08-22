@@ -12,10 +12,10 @@ local function CreateLeaderStats(player: Player, Data: PlayerDataTemplate.DataTy
     folder.Name = 'leaderstats'
     folder.Parent = player
 
-	local Wins = Instance.new('NumberValue')
-	Wins.Name = 'Wins'
-	Wins.Value = Data.Wins
-	Wins.Parent = folder
+	local Coins = Instance.new('NumberValue')
+	Coins.Name = 'Coins'
+	Coins.Value = Data.Coins
+	Coins.Parent = folder
 end
 
 local function SetCoinValue(player: Player, value: number)

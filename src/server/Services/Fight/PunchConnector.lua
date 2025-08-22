@@ -7,11 +7,10 @@ local GetDistance = require(script.Parent.GetDistance)
 local EffectAPI = require(game.ServerScriptService.Services.Effects.EffectAPI)
 
 
-
 local PunchConnector = {}
 PunchConnector.__index = PunchConnector
 
-PunchConnector.MAX_DISTANCE = 7
+PunchConnector.MAX_DISTANCE = 8
 PunchConnector.DAMAGE = 5
 
 

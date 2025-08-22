@@ -9,10 +9,7 @@ local FightEvents = ReplicatedStorage.Events.Fight
 local Player = Players.LocalPlayer
 
 
-local PunchAnimation = AnimationSequence.new({
-    [1] = AnimationFolder.M1,
-    [2] = AnimationFolder.M2,
-})
+local PunchAnimationSequence: AnimationSequence.AnimationSequenceType?
 
 local function HandleHitResults(result: {HitboxModule.Target?})
     if not result or not result['Target'] then return end
@@ -20,12 +17,20 @@ local function HandleHitResults(result: {HitboxModule.Target?})
 end
 
 local function Punch()
+    if PunchAnimationSequence == nil then warn('No PunchAnimationSequence Found') return end
     local HitResults = HitboxModule.Fire(Player.Character)
 
-    PunchAnimation:Play()
+    PunchAnimationSequence:Play()
     HandleHitResults(HitResults)
 end
 
+local function ChanageAnimations(animaionList: {Animation})
+    PunchAnimationSequence:Destroy()
+    PunchAnimationSequence = AnimationSequence.new(animaionList)
+end
+
+
+FightEvents.ChangePunchAnimation(ChanageAnimations)
 
 return {
     Fire = Punch

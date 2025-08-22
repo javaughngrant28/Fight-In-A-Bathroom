@@ -1,7 +1,7 @@
 local Debris = game:GetService("Debris")
 
 local function CreateHitEffect(part: Part, position: Vector3, duration: number?)
-    local duration = duration or 20
+    local duration = duration or 1
 
     part:SetAttribute('EffectName','Hit1')
     part:SetAttribute('SoundName','Landed')

@@ -36,4 +36,9 @@ function API._GetUpdateAttributeSignal()
 	return UpdateAttributeSignal
 end
 
+function API.GetInvetoryData(player: Player): PlayerDataTemplate.InventoryType
+	local data = GetData(player)
+	return data.Inventory
+end
+
 return API

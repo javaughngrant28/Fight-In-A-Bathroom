@@ -15,6 +15,9 @@
           "$className": "Folder",
           "Punch": {
             "$className": "RemoteEvent"
+          },
+          "ChangePunchAnimation": {
+            "$className": "RemoteEvent"
           }
         }
       },

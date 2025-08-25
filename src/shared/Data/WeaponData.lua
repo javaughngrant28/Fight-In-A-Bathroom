@@ -14,17 +14,19 @@ type CustomAnimationType = {
     Grab: Animation?,
 }
 
-export type WeaponDataType = {
-    WeaponName: {
-        Type: string,
-        Stackable: boolean,
-        Cost: number,
-        Model: Model?,
-        CustomAnimations: CustomAnimationType?,
-    }
+export type WeaponDataType =  {
+    Type: string,
+    Stackable: boolean,
+    Cost: number,
+    Model: Model?,
+    CustomAnimations: CustomAnimationType?,
 }
 
-local WeaponData: WeaveAnimationType = {
+export type WeaponListType = {
+    WeaponName: WeaponDataType
+}
+
+local WeaponData: WeaponListType = {
     Fist = {
         Type = 'Melee',
         Stackable = false,

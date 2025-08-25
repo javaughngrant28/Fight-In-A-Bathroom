@@ -3,29 +3,25 @@ local Players = game:GetService("Players")
 
 local Observers = require(game.ReplicatedStorage.Shared.Libraries.Observers)
 
-local InventoryState = require(script.Parent.InventoryState)
 local PlayerDataAPI = require(game.ServerScriptService.Services.Data.PlayerDataAPI)
-local WeaponData = require(game.ReplicatedStorage.Shared.Data.WeaponData)
+local WeaponAPI = require(game.ServerScriptService.Services.Weapons.WeaponAPI)
 local InventoryHelper = require(script.Parent.InventoryHelper)
+
 
 
 local MAX_EQUIP_AMOUNT = 5
 
 
-local function EquipWeapon(player: Player,WeaponName: string)
-    
+local function EquipWeapon(player: Player,weaponName: string)
+    WeaponAPI.Create(player,weaponName)
 end
 
 local function onPlayerDataLoaded(player: Player)
     local inventoryData = PlayerDataAPI.GetInvetoryData(player)
-
-    InventoryState[player] = {
-        EquippedCount = 0,
-        Items = inventoryData
-    }
-
-    for WeaponName, value in inventoryData.Weapons do
-        if value.Equipped and InventoryState[player] 
+    for weaponName, value in inventoryData.Weapons do
+        if value.Equipped then
+            EquipWeapon(player,weaponName)
+        end
     end
 end
 

@@ -17,8 +17,8 @@ function API.Create(player: Player,WeaponName: string)
     CreateSignal:Fire(player,WeaponName)
 end
 
-function API.Destroy(...: any?)
-    DestroySignal:Fire(...)
+function API.Destroy(playerName: string, WeaponName: string)
+    DestroySignal:Fire(playerName,WeaponName)
 end
 
 return API

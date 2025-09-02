@@ -1,24 +1,24 @@
 local Signal = require(game.ReplicatedStorage.Shared.Libraries.Signal)
 
-local CreateSignal = Signal.new()
-local DestroySignal = Signal.new()
+local CreateAllEquippedSignal = Signal.new()
+local DestroyAllSignal = Signal.new()
 
 local API = {}
 
-function API._GetCreateSignal(): Signal.SignalType
-    return CreateSignal
+function API._GetCreateAllEquippedSignal(): Signal.SignalType
+    return CreateAllEquippedSignal
 end
 
-function API._GetDestroySignal(): Signal.SignalType
-    return DestroySignal
+function API._GetDestroyAllSignal(): Signal.SignalType
+    return DestroyAllSignal
 end
 
-function API.Create(player: Player,WeaponName: string)
-    CreateSignal:Fire(player,WeaponName)
+function API.CreateAllEquipped(player: Player)
+    CreateAllEquippedSignal:Fire(player)
 end
 
-function API.Destroy(playerName: string, WeaponName: string)
-    DestroySignal:Fire(playerName,WeaponName)
+function API.DestroyAll(playerName: string)
+    DestroyAllSignal:Fire(playerName)
 end
 
 return API

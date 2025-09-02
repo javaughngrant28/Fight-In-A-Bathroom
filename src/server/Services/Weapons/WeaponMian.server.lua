@@ -1,34 +1,39 @@
 
-local WeaponData = require(game.ReplicatedStorage.Shared.Data.WeaponData)
 local WeaponAPI = require(script.Parent.WeaponAPI)
+local PlayerDataAPI = require(game.ServerScriptService.Services.Data.PlayerDataAPI)
+local TableUtil = require(game.ReplicatedStorage.Shared.Utils.TableUtil)
 local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
-local Range = require(script.Parent.Range)
-local Melee = require(script.Parent.Melee)
+local WeaponData = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponData)
+local WeaponEnum = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponEnum)
 
-local Maid: MaidModule.Maid = MaidModule.new()
+local Maid = MaidModule.new()
+local Weapon = require(script.Parent.Weapon)
 
+local CreateAllEquippedSignal = WeaponAPI._GetCreateAllEquippedSignal()
+local DestroyAllSignal = WeaponAPI._GetDestroyAllSignal()
 
-local CreateSignal = WeaponAPI._GetCreateSignal()
-local DestroySignal = WeaponAPI._GetDestroySignal()
-
-
-local function Create(player: Player, weaponName: string)
+local function CreateWeapon(player: Player, weaponName: string)
     local data = WeaponData[weaponName]
-    assert(data,`{player} {weaponName} No Found In Weapon Data`)
+    assert(data,`{player} {weaponName}: Weapon Data Not Found`)
 
-    if data.Type == "Melee" then
-        Maid[player.Name..weaponName] = Melee.new(player,weaponName,data)
-        else
-            Maid[player.Name..weaponName] = Range.new(player,weaponName,data)
+    Maid[player.Name..weaponName] = Weapon.new(player,weaponName,data)
+end
+
+local function  CreateAllEquippedWeapons(player: Player)
+    local InventoryData = PlayerDataAPI.GetInvetoryData(player)
+    for weaponName: string, IsEquipped: boolean in InventoryData.Weapons do
+        if not IsEquipped then continue end
+        CreateWeapon(player,weaponName)
     end
 end
 
-local function Destroy(playerName: string, weaponName: string)
-    Maid[playerName..weaponName] = nil
+local function DestroyAllWeapons(playerName: string)
+    local weaponIndexList = TableUtil.GetIndexListByFilter(playerName,Maid._tasks)
+    for _, index: string in weaponIndexList do
+        Maid[index] = nil
+    end
 end
 
 
-CreateSignal:Connect(Create)
-DestroySignal:Connect(Destroy)
-
-
+CreateAllEquippedSignal:Connect(CreateAllEquippedWeapons)
+DestroyAllSignal:Connect(DestroyAllWeapons)

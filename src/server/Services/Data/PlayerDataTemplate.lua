@@ -7,10 +7,7 @@ export type keybindType = {
 }
 
 export type WeaponType = {
-	[WeaponName]: {
-		Equipped: IsEquipped,
-		Count: number,
-    },
+	[WeaponName]: IsEquipped,
 }
 
 export type InventoryType = {
@@ -44,10 +41,7 @@ return {
 
 	Inventory = {
 		Weapons = {
-			Fist = {
-				Equipped = true,
-				Count = 1,
-			}
+			Fist = true,
 		}
 	}
 }

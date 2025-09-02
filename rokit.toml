@@ -5,3 +5,9 @@
 
 [tools]
 lune = "lune-org/lune@0.10.1"
+selene = "Kampfkarren/selene@0.29.0"
+StyLua = "JohnnyMorganz/StyLua@2.1.0"
+
+[tasks]
+format = "bin/stylua src"
+lint = "bin/selene src"

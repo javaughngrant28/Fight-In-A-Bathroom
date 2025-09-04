@@ -3,14 +3,17 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local MaidModule = require(ReplicatedStorage.Shared.Libraries.Maid)
 
+
 local ToolController = {}
 ToolController.__index = ToolController
+
 
 export type ToolControllerType = typeof(setmetatable({} :: {
     _MAID: MaidModule.Maid,
     NAME: string,
     TYPE: string,
     INSTANCE: Tool,
+    EVENT: RemoteEvent,
 }, ToolController))
 
 function ToolController.new(name: string, type: string): ToolControllerType
@@ -32,6 +35,28 @@ function ToolController._CreatInstance(self: ToolControllerType)
 
     self._MAID['Tool'] = Tool
     self.INSTANCE = Tool
+end
+
+function ToolController.OnEquipped(self: ToolControllerType, callBack: (value: boolean)-> ())
+    local tool = self.INSTANCE
+
+    local function FireCallback(value: boolean)
+        callBack(value)
+    end
+
+    self._MAID['AncestryChanged'] = tool.AncestryChanged:Connect(function(_, parent)
+        if not parent or parent == nil then
+            FireCallback(false)
+        end
+
+        if parent:IsA('Model') then
+            FireCallback(true)
+            else
+                FireCallback(false)
+        end 
+    end)
+
+    FireCallback(false)
 end
 
 function ToolController.Destroy(self: ToolControllerType)

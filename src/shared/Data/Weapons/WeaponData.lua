@@ -9,6 +9,7 @@ local WeaponData: WeaponTypes.List = {
     Fist = {
         Type = WeaponEnum.Types.Melee,
         Cost = 0,
+        Damage = 10,
         Animations = {
             Punch = {
                 AnimationFolder.M1,

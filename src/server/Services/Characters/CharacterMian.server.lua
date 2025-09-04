@@ -9,15 +9,17 @@ local function onCharacterRemoving(player: Player)
 	WeaponAPI.DestroyAll(player.Name)
 end
 
+local function CharacterDied(character: Model)
+	local humanoid = character:FindFirstChildWhichIsA("Humanoid", true) :: Humanoid
+	Maid["Died"..character.Name] = humanoid.Died:Once(function()
+		onCharacterRemoving(character)
+	end)
+end
+
 local function onCharacterAdded(player: Player, Character: Model)
 	WeaponAPI.CreateAllEquipped(player)
 
-	pcall(function()
-		local humanoid = Character:FindFirstChildWhichIsA("Humanoid", true) :: Humanoid
-		Maid["Died Connection"] = humanoid.Died:Once(function()
-			onCharacterRemoving(player)
-		end)
-	end)
+	pcall(CharacterDied,Character)
 
 	return function()
 		onCharacterRemoving(player)

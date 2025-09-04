@@ -20,6 +20,7 @@ type CustomAnimation = {
 export type Data =  {
     Type: string,
     Cost: number,
+    Damage: number,
     Model: Model?,
     Animations: CustomAnimation,
 }

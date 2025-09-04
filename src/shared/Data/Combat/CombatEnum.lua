@@ -4,7 +4,8 @@
 return {
     Punch = "Punch",
     Kick = 'Kick',
-    Weave = 'Weave',
+    WeaveLeft = 'Weave',
+    WeaveRight = 'Weave',
     Block = 'Block',
     Grab = 'Grab',
     Throw = 'Throw',

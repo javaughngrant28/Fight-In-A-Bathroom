@@ -12,8 +12,6 @@ export type Attribues = {
 local function CreateAttributes(player: Player)
 	local Data = PlayerProfiles[player].Data
 	player:SetAttribute('Coins', Data.Coins)
-	player:SetAttribute('XboxKeybind',Data.Keybinds.Punch.Xbox)
-	player:SetAttribute('PCKeybind',Data.Keybinds.Punch.PC)
 	player:SetAttribute('MouseKeybind',Data.Keybinds.MosueLock.Xbox)
 	player:SetAttribute('Loaded',true)
 end

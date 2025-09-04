@@ -6,7 +6,16 @@ local WeaponTypes = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponTyp
 local WeaponEnum = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponEnum)
 local ToolConstrocter = require(script.Parent.ToolConstrocter)
 local Combat = require(game.ServerScriptService.Modules.Combat)
+local InputUtil = require(game.ReplicatedStorage.Shared.Utils.InputUtil)
+local PlayerDataAPI = require(game.ServerScriptService.Services.Data.PlayerDataAPI)
 
+local BUTTON_SCREEN_NAME = 'Mobile Buttons'
+local PUNCH_BUTTON_NAME = 'PunchBTN'
+local KICK_BUTTON_NAME = 'KickBTN'
+local BLOCK_BUTTON_NAME = 'BlockBTN'
+local GRAB_BUTTON_NAME = 'GrabBTN'
+local WEAVE_LEFT_BUTTON_NAME = 'WeaveLeftBTN'
+local WEAVE_RIGHT_BUTTON_NAME = 'WeaveRightBTN'
 
 local Weapon = {}
 Weapon.__index = Weapon
@@ -17,7 +26,7 @@ export type WeaponInterface = typeof(setmetatable({} :: {
     WEAPON_DATA: WeaponTypes.Data,
     WEAPON_NAME: string,
     TOOL: ToolConstrocter.ToolControllerType,
-    INPUT_FOLDER: Folder,
+    INPUT_CONTEXT: InputContext,
 }, Weapon))
 
 function Weapon.new(player: Player, weaponName: string, weaponData: WeaponTypes.Data): WeaponInterface
@@ -31,7 +40,7 @@ function Weapon.new(player: Player, weaponName: string, weaponData: WeaponTypes.
 
     self._MAID['Tool'] = self.TOOL
     self:_CreateModel()
-    self:_CreateInputFolder()
+    self:_CreateInputContext()
 
     self:_CreateEvent()
     self:_ConnectToEvent()
@@ -83,8 +92,43 @@ function Weapon._ConnectToEvent(self: WeaponInterface)
     self._MAID['EventConenction'] = self.TOOL.EVENT.OnServerEvent:Connect(onEventFired)
 end
 
-function Weapon._CreateInputFolder(self: WeaponInterface)
+function Weapon._CreateInputContext(self: WeaponInterface)
+    if self.WEAPON_DATA.Type ~= WeaponEnum.Types.Melee then return end
+    local keybinds = PlayerDataAPI.GetKeybinds(self.PLAYER)
+    local ScreenGui = self.PLAYER.PlayerGui:FindFirstChild(BUTTON_SCREEN_NAME)
+
+    local inputTable = {
+        [`{Combat.Enum.Punch}`] = {
+           table.unpack(keybinds.Punch),
+           ScreenGui:FindFirstChild(PUNCH_BUTTON_NAME,true)
+        },
+        [`{Combat.Enum.Block}`] = {
+           table.unpack(keybinds.Block),
+           ScreenGui:FindFirstChild(BLOCK_BUTTON_NAME,true)
+        },
+        [`{Combat.Enum.Kick}`] = {
+           table.unpack(keybinds.Kick),
+           ScreenGui:FindFirstChild(KICK_BUTTON_NAME,true)
+        },
+        [`{Combat.Enum.Grab}`] = {
+           table.unpack(keybinds.Grab),
+           ScreenGui:FindFirstChild(GRAB_BUTTON_NAME,true)
+        },
+        [`{Combat.Enum.WeaveLeft}`] = {
+           table.unpack(keybinds.WeaveLeft),
+           ScreenGui:FindFirstChild(WEAVE_LEFT_BUTTON_NAME,true)
+        },
+        [`{Combat.Enum.WeaveRight}`] = {
+           table.unpack(keybinds.WeaveRight),
+           ScreenGui:FindFirstChild(WEAVE_RIGHT_BUTTON_NAME,true)
+        },
+    }
+
+    local inputContext = InputUtil.Create(self.WEAPON_NAME,inputTable)
     
+    inputContext.Parent = self.PLAYER
+    self.INPUT_CONTEXT = inputContext
+    self._MAID['InputContext'] =  inputContext
 end
 
 function Weapon._CreateEvent(self: WeaponInterface)
@@ -95,9 +139,9 @@ function Weapon._CreateEvent(self: WeaponInterface)
     local weaponType = self.WEAPON_DATA.Type
     local enumTypes = WeaponEnum.Types
     local tool: Tool = self.TOOL.INSTANCE
-    local inputFolder = self.INPUT_FOLDER
+    local inputContext = self.INPUT_CONTEXT
     
-    Event.Parent = weaponType == enumTypes.Range and tool or inputFolder
+    Event.Parent = weaponType == enumTypes.Range and tool or inputContext
 end
 
 function Weapon._CreateModel(self: WeaponInterface)

@@ -41,4 +41,9 @@ function API.GetInvetoryData(player: Player): PlayerDataTemplate.InventoryType
 	return data.Inventory
 end
 
+function API.GetKeybinds(player: Player): PlayerDataTemplate.keybindInterface
+	local data = GetData(player)
+	return data.Keybinds
+end
+
 return API

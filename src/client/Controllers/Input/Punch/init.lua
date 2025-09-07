@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 
 local Hitbox = require(script.Parent.Parent.Parent.Modules.Hitbox)
-local AnimationSequence = require(script.Parent.Parent.Parent.Modules.AnimationSequence)
+local PunchAnimation = require(script.PunchAnimation)
 local Throttle = require(game.ReplicatedStorage.Shared.Libraries.Throttle)
 local CombatEnum = require(game.ReplicatedStorage.Shared.Data.Combat.CombatEnum)
 
@@ -16,10 +16,22 @@ local function HitBoxResults(results: {}, remoteEvent: RemoteEvent)
     remoteEvent:FireServer(INDEX,Target)
 end
 
+local function Filter(Target: Model): boolean
+    return true
+end
+
 local function Punch(remoteEvent: RemoteEvent)
     local Character: Model = Players.LocalPlayer.Character
+
+    local hitboxInfo: Hitbox.HitboxInfo = {
+        Character = Character,
+        Filter = Filter,
+    }
+
     local results = Hitbox.Fire(Character)
     HitBoxResults(results,remoteEvent)
+
+    PunchAnimation.Play()
 end
 
 local function PunchRequest(remoteEvent: RemoteEvent)

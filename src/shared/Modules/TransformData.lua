@@ -1,9 +1,9 @@
 
-local function CreatValueInstance(name: string, dataType: any): ValueBase
+local function CreatValueInstance(name: string, dataType: any, instanceCloning: boolean): ValueBase
 	local valueInstance: ValueBase
 
 	if typeof(dataType) == 'Instance' then
-		valueInstance = Instance.new('ObjectValue')
+		valueInstance = instanceCloning and dataType:Clone() or Instance.new('ObjectValue')
 	end
 
 	if typeof(dataType) == "number" then
@@ -41,13 +41,15 @@ local function CreatValueInstance(name: string, dataType: any): ValueBase
 	assert(dataType,`{dataType} Does Not Have A ValueBase`)
 
 	valueInstance.Name = name
-	valueInstance.Value = dataType
+	pcall(function()
+		valueInstance.Value = dataType
+	end)
 
 	return valueInstance
 end
 
 -- Creates 
-local function DataToInsatnce(parentInstance: Instance, data: {[string]: any})
+local function DataToInsatnce(parentInstance: Instance, data: {[string]: any}, instanceCloning: boolean?)
 	for index: string, value: any  in pairs(data) do
 		if typeof(value) == 'table' then
 			local folder = Instance.new('Folder')
@@ -55,7 +57,7 @@ local function DataToInsatnce(parentInstance: Instance, data: {[string]: any})
 			folder.Parent = parentInstance
 			DataToInsatnce(folder,value)
 		else
-			local valueInstance = CreatValueInstance(index,value)
+			local valueInstance = CreatValueInstance(index,value,instanceCloning)
 			valueInstance.Parent = parentInstance
 		end
 	end 

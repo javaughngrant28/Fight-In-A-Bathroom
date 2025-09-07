@@ -48,7 +48,7 @@ local function LoadAnimationsFromFolder(folder: Folder)
     if #folder:GetChildren() == 0 then warn(`{folder} Has No Children`) return end
 
     for _, animation: Animation in folder:GetChildren() do
-        if not animation:IsA('Animation') and not AnimationList[animation.Name] then
+        if not animation:IsA('Animation') or not AnimationList[animation.Name] then
             warn(`{animation} {typeof(animation)} Type Or Name Not Valid`)
             continue 
         end

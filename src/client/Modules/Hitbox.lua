@@ -7,6 +7,15 @@ export type Target = {
 	PrimaryPart: BasePart?,
 }
 
+export type FilterFunction = (target: Model) -> boolean
+
+export type HitboxInfo = {
+	Character: Model,
+	Size: Vector3?,
+	Offset: Vector3?,
+	Filter: FilterFunction,
+}
+
 local HitboxPart = Instance.new('Part')
 HitboxPart.Transparency = 0.8
 HitboxPart.Massless = true
@@ -21,13 +30,13 @@ local DEFAULT_SIZE = Vector3.new(6,6,6)
 
 local Hitbox = {}
 
-function Hitbox.Fire(character: Model,size: Vector3?, offset: Vector3?): {Target: Target} | {}
-	local humanoidRootPart = character:FindFirstChild("HumanoidRootPart") :: BasePart
-	local humanoid = character:FindFirstChild("Humanoid") :: Humanoid
+function Hitbox.Fire(hitboxInfo: HitboxInfo): {Target: Target} | {}
+	local humanoidRootPart = hitboxInfo.Character:FindFirstChild("HumanoidRootPart") :: BasePart
+	local humanoid = hitboxInfo.Character:FindFirstChild("Humanoid") :: Humanoid
 	if not humanoidRootPart or not humanoid then return {} end
 	
-	local offset = offset or DEFAULT_OFFSET
-	local size = size or DEFAULT_SIZE
+	local offset = hitboxInfo.Offset or DEFAULT_OFFSET
+	local size = hitboxInfo.Size or DEFAULT_SIZE
 
 	local part = HitboxPart:Clone()
 	part.Parent = workspace
@@ -50,10 +59,12 @@ function Hitbox.Fire(character: Model,size: Vector3?, offset: Vector3?): {Target
 		local forceFeild: ForceField = char:FindFirstChild('ForceField')
 
 		if forceFeild then continue end
-		if char == character then continue end
+		if char == hitboxInfo.Character then continue end
 		if not charHRP then continue end
 		if not targetHumanoid then continue end
 		if targetHumanoid.Health <= 0 then continue end
+
+		if hitboxInfo.Filter and not hitboxInfo.Filter(char) then continue end 
 
 		if not nearestCharacter then
 			nearestCharacter = char

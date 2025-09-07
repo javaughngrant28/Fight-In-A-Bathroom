@@ -8,14 +8,20 @@ type CustomAnimation = {
     Punch: {Animation}?,
     Throw: Animation?,
     Weave: WeaveAnimation?,
-    Walk: Animation?,
-    Jump: Animation?,
-    Fall: Animation?,
-    Idle: Animation?,
     Block: Animation?,
     Grab: Animation?,
     Kick: Animation?,
+    RunAnim: string?,
+    WalkAnim: string?,
+    Animation1: string?,
+    Animation2: string?,
+    JumpAnim: string?,
+    FallAnim: string?,
+    Swim: string?,
+    SwimIdle: string?,
+    ClimbAnim: string?,
 }
+
 
 export type Data =  {
     Type: string,

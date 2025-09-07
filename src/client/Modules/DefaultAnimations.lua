@@ -45,6 +45,8 @@ end
 local function LoadAnimationsFromFolder(folder: Folder)
     local animationTable = {}
 
+    if #folder:GetChildren() == 0 then warn(`{folder} Has No Children`) return end
+
     for _, animation: Animation in folder:GetChildren() do
         if not animation:IsA('Animation') and not AnimationList[animation.Name] then
             warn(`{animation} {typeof(animation)} Type Or Name Not Valid`)
@@ -57,13 +59,19 @@ local function LoadAnimationsFromFolder(folder: Folder)
 end
 
 local function LoadAnimationsFromTable(animationTable: DefaultAnimations)
+    local TableEmpty = true
+
     for index, value in animationTable do
         if not AnimationList[index] then
             animationTable[index] = nil
             warn(`{index} In table Not Valid`)
             continue
         end
+
+        TableEmpty = false
     end
+
+    if TableEmpty then return end
     LoadAnimationsInTable(animationTable)
 end
 

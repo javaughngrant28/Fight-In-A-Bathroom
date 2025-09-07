@@ -8,7 +8,9 @@ local ToolConstrocter = require(script.Parent.ToolConstrocter)
 local Combat = require(game.ServerScriptService.Modules.Combat)
 local InputUtil = require(game.ReplicatedStorage.Shared.Utils.InputUtil)
 local PlayerDataAPI = require(game.ServerScriptService.Services.Data.PlayerDataAPI)
+local TransformData = require(game.ReplicatedStorage.Shared.Modules.TransformData)
 
+-- TODO: Get Actual button Names
 local BUTTON_SCREEN_NAME = 'Mobile Buttons'
 local PUNCH_BUTTON_NAME = 'PunchBTN'
 local KICK_BUTTON_NAME = 'KickBTN'
@@ -44,6 +46,8 @@ function Weapon.new(player: Player, weaponName: string, weaponData: WeaponTypes.
 
     self:_CreateEvent()
     self:_ConnectToEvent()
+
+    self:_LoadAnimations()
 
     self.TOOL.INSTANCE.Parent = player.Backpack
 
@@ -98,27 +102,27 @@ function Weapon._CreateInputContext(self: WeaponInterface)
     local ScreenGui = self.PLAYER.PlayerGui:FindFirstChild(BUTTON_SCREEN_NAME)
 
     local inputTable = {
-        [`{Combat.Enum.Punch}`] = {
+        [Combat.Enum.Punch] = {
            table.unpack(keybinds.Punch),
            ScreenGui:FindFirstChild(PUNCH_BUTTON_NAME,true)
         },
-        [`{Combat.Enum.Block}`] = {
+        [Combat.Enum.Block] = {
            table.unpack(keybinds.Block),
            ScreenGui:FindFirstChild(BLOCK_BUTTON_NAME,true)
         },
-        [`{Combat.Enum.Kick}`] = {
+        [Combat.Enum.Kick] = {
            table.unpack(keybinds.Kick),
            ScreenGui:FindFirstChild(KICK_BUTTON_NAME,true)
         },
-        [`{Combat.Enum.Grab}`] = {
+        [Combat.Enum.Grab] = {
            table.unpack(keybinds.Grab),
            ScreenGui:FindFirstChild(GRAB_BUTTON_NAME,true)
         },
-        [`{Combat.Enum.WeaveLeft}`] = {
+        [Combat.Enum.WeaveLeft] = {
            table.unpack(keybinds.WeaveLeft),
            ScreenGui:FindFirstChild(WEAVE_LEFT_BUTTON_NAME,true)
         },
-        [`{Combat.Enum.WeaveRight}`] = {
+        [Combat.Enum.WeaveRight] = {
            table.unpack(keybinds.WeaveRight),
            ScreenGui:FindFirstChild(WEAVE_RIGHT_BUTTON_NAME,true)
         },
@@ -151,6 +155,16 @@ function Weapon._CreateModel(self: WeaponInterface)
     modelClone.Parent = self.TOOL.INSTANCE
 
     self._MAID['Model'] = modelClone
+end
+
+function Weapon._LoadAnimations(self: WeaponInterface)
+    local animations = self.WEAPON_DATA.Animations
+    local folder = Instance.new('Folder')
+    folder.Name = 'Animations'
+
+    TransformData.ToInstance(folder,animations,true)
+
+    folder.Parent = self.TOOL.INSTANCE
 end
 
 function Weapon.__GetActionMethod(self: WeaponInterface, eventIndex: string): (self: WeaponInterface,player: Player,...any?)->()?

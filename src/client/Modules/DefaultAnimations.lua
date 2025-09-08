@@ -3,8 +3,8 @@ local Players = game:GetService("Players")
 type DefaultAnimations = {
     RunAnim: string,
     WalkAnim: string,
-    Animation1: string,
-    Animation2: string,
+    Animation1: string, -- Idle1
+    Animation2: string, -- Idle2
     JumpAnim: string,
     FallAnim: string,
     Swim: string,

@@ -4,7 +4,10 @@ local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
 local player = Players.LocalPlayer
 
 local InputTable = {} ::{
-    string: {Fire: (RemoteEvent)->()}
+    string: {
+        Pressed: (RemoteEvent)->(),
+        Released: (RemoteEvent)->()?,
+    }
 }
 
 
@@ -13,9 +16,15 @@ local function ConnectToInputAction(Maid: MaidModule.Maid, inputContext: InputAc
     local InputModule = InputTable[inputContext.Name]
     if not InputModule then warn(`{inputContext.Name} Is Not In InputTable`) return end
 
-    Maid[inputContext.Name] = inputContext.Pressed:Connect(function()
-        InputModule.Fire(remoteEvent)
+    Maid[inputContext.Name..'Pressed'] = inputContext.Pressed:Connect(function()
+        InputModule.Pressed(remoteEvent)
     end)
+
+    if InputModule['Released'] then
+        Maid[inputContext.Name..'Released'] = inputContext.Released:Connect(function()
+            InputModule.Released(remoteEvent)
+        end)
+    end
 end
 
 local function GetAllInputActions(Maid: MaidModule.Maid, inputContext: InputContext, remoteEvent: RemoteEvent)

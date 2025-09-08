@@ -41,5 +41,5 @@ end
 
 
 return{
-    Fire = PunchRequest,
+    Pressed = PunchRequest,
 }

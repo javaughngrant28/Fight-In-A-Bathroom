@@ -9,6 +9,7 @@ local Combat = require(game.ServerScriptService.Modules.Combat)
 local InputUtil = require(game.ReplicatedStorage.Shared.Utils.InputUtil)
 local PlayerDataAPI = require(game.ServerScriptService.Services.Data.PlayerDataAPI)
 local TransformData = require(game.ReplicatedStorage.Shared.Modules.TransformData)
+local StateEnum = require(game.ReplicatedStorage.Shared.Data.Character.StateEnum)
 
 -- TODO: Get Actual button Names
 local BUTTON_SCREEN_NAME = 'Mobile Buttons'
@@ -77,7 +78,8 @@ function Weapon.Weave(self: WeaponInterface, player: Player)
     
 end
 
-function Weapon.Block(self: WeaponInterface, player: Player)
+function Weapon.Block(self: WeaponInterface, player: Player, value: boolean)
+    local Character: Model = self.PLAYER.Character
     
 end
 

@@ -2,7 +2,7 @@
 
 
 return {
-    ATTRIBUTE_NAME = 'State',
+    ATTRIBUTE_NAME = "State",
     None = 'None',
     Blocking = 'Blocking',
     Downed = 'Downed',

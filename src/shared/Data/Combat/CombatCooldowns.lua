@@ -1,5 +1,6 @@
 
 
 return {
-    Block = 4
+    Block = 4,
+    Throw = 2,
 }

@@ -162,6 +162,8 @@ end
 function Weapon._CreateModel(self: WeaponInterface)
     local weaponModel: Model? = self.WEAPON_DATA.Model
     if not weaponModel then return end
+    assert(weaponModel.PrimaryPart,`{weaponModel} Does Not Have A PrimaryPart`)
+    
     local modelClone = weaponModel:Clone()
     modelClone.Parent = self.TOOL.INSTANCE
 

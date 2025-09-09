@@ -73,6 +73,7 @@ return {
 	Inventory = {
 		Weapons = {
 			Fist = true,
+			Shade = true,
 		}
 	}
 }

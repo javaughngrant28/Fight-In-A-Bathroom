@@ -29,6 +29,7 @@ export type Data =  {
     Damage: number,
     Model: Model?,
     Animations: CustomAnimation,
+    ModelSpawnAt: string?,
 }
 
 export type List = {

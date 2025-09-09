@@ -30,6 +30,33 @@ local WeaponData: WeaponTypes.List = {
 
         },
     },
+
+    Shade = {
+        Type = WeaponEnum.Types.Range,
+        Cost = 0,
+        Damage = 10,
+        Model = ReplicatedStorage.Assets.Models.Shade,
+        ModelSpawnAt = 'HumanoidRootPart',
+        Animations = {
+            Punch = {
+                AnimationFolder.M1,
+                AnimationFolder.M2,
+            },
+            Weave = {
+                Left = AnimationFolder.Wave1,
+                Righ = AnimationFolder.Wave2,
+            },
+            WalkAnim = AnimationFolder.Run1,
+            FallAnim = AnimationFolder.Fall1,
+            JumpAnim = AnimationFolder.Jump1,
+            Block = AnimationFolder.Block,
+            Grab = AnimationFolder.Grab1,
+            Kick = AnimationFolder.Kick1,
+            Animation1 = AnimationFolder.Idle1,
+            Animation2 = AnimationFolder.Idle1,
+
+        },
+    },
 }
 
 return WeaponData

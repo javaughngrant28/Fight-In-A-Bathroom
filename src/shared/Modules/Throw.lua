@@ -1,6 +1,6 @@
 
-local ThrowAtPosition = function(part: Part, position: Vector3, speed: number?)
-    local speed = speed or 0.4
+local ThrowAtPosition = function(part: Part, position: Vector3, duration: number?)
+    local speed = duration or 0.4
 
     local mass = part:GetMass()
     local origin = part.Position

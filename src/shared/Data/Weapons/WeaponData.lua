@@ -31,12 +31,15 @@ local WeaponData: WeaponTypes.List = {
         },
     },
 
-    Shade = {
+    SpitBall = {
         Type = WeaponEnum.Types.Range,
         Cost = 0,
         Damage = 10,
         Model = ReplicatedStorage.Assets.Models.Shade,
-        ModelSpawnAt = 'HumanoidRootPart',
+        AOE = false,
+        ThrowOriginName = 'Head',
+        ThrowDuration = 0.4,
+        ThrowDistance = 20,
         Animations = {
             Punch = {
                 AnimationFolder.M1,

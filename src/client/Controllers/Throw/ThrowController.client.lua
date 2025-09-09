@@ -1,4 +1,6 @@
 
+local Players = game:GetService("Players")
+
 local ToolDetectore = require(script.Parent.Parent.Parent.Modules.ToolDetectore)
 local WeaponEnum = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponEnum)
 local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
@@ -6,11 +8,16 @@ local Throttle = require(game.ReplicatedStorage.Shared.Libraries.Throttle)
 local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
 local CombatEnum = require(game.ReplicatedStorage.Shared.Data.Combat.CombatEnum)
 
+local Player = Players.LocalPlayer
+
 local Maid: MaidModule.Maid = MaidModule.new()
 local INDEX = CombatEnum.Throw
 
 local function onToolActivaed(event: RemoteEvent)
-    event:FireServer(INDEX)
+    local character = Player.Character :: Model
+    local rootPart = character:FindFirstChild('HumanoidRootPart') :: Part
+
+    event:FireServer(INDEX,rootPart.CFrame.LookVector)
 end
 
 local function ValidateTool(tool: Tool)

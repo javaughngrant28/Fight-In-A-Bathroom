@@ -27,9 +27,15 @@ export type Data =  {
     Type: string,
     Cost: number,
     Damage: number,
-    Model: Model?,
     Animations: CustomAnimation,
-    ModelSpawnAt: string?,
+    Model: Model?,
+    
+    --Throwing Stuff
+    AOE: boolean?,
+    AOE_Radius: number?,
+    ThrowOriginName: string?,
+    ThrowDuration: number?,
+    ThrowDistance: number?,
 }
 
 export type List = {

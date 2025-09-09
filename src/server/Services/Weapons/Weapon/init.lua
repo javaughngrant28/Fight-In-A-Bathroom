@@ -92,8 +92,23 @@ function Weapon.Block(self: WeaponInterface, player: Player, value: boolean)
     end
 end
 
-function Weapon.Throw(self: WeaponInterface, player: Player)
-    
+function Weapon.Throw(self: WeaponInterface, player: Player, lootAt: Vector3)
+    local weaponData = self.WEAPON_DATA
+    assert(lootAt and typeof(lootAt) == "Vector3",`{lootAt} Must Be Vetore3 To Throws`)
+
+    local throwInfo = {
+        Character = self.Character,
+        Model = weaponData.Model,
+        BodyPartName = weaponData.ThrowOriginName,
+        LookAt = lootAt,
+        Duration = weaponData.ThrowDuration,
+        Distance = weaponData.ThrowDistance,
+        Damage = weaponData.Damage,
+        AOE = weaponData.AOE,
+        DamageRadius = weaponData.AOE_Radius,
+    }
+
+    Combat.Throw.Fire(throwInfo)
 end
 
 function Weapon._ConnectToEvent(self: WeaponInterface)

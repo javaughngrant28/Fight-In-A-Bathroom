@@ -80,7 +80,16 @@ end
 
 function Weapon.Block(self: WeaponInterface, player: Player, value: boolean)
     local Character: Model = self.PLAYER.Character
-    
+
+    if typeof(value) ~="boolean" then return end
+    if Combat.State.Get(Character) == Combat.Enum.Block and value == false then return end
+    if Combat.State.Get(Character) ~= Combat.Enum.Block and value == true then return end
+
+    if value then
+        Combat.Block.Activate(Character)
+        else
+            Combat.Block.Deactivate(Character)
+    end
 end
 
 function Weapon.Throw(self: WeaponInterface, player: Player)

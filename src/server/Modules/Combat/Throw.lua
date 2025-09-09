@@ -4,6 +4,8 @@ local Workspace = game:GetService("Workspace")
 local Throw = require(game.ReplicatedStorage.Shared.Modules.Throw)
 local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
 local AOE = require(script.Parent.AOE)
+local Player = require(script.Parent.Player)
+local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
 
 local Maid: MaidModule.Maid = MaidModule.new()
 
@@ -48,6 +50,17 @@ local function CreateHitConnection(part: BasePart, throwInfo: ThrowInfo)
     end)
 end
 
+local function ThrowDebounce(Character: Model)
+    local player: Player? = Player.Get(Character)
+    if not player then return end
+
+    player:SetAttribute(CombatCooldowns.Throw.ATTRIBUTE_NAME,true)
+
+    task.delay(CombatCooldowns.Throw.DURATION,function()
+        player:SetAttribute(CombatCooldowns.Throw.ATTRIBUTE_NAME,false)
+    end)
+end
+
 
 local function ThrowModel(throwInfo: ThrowInfo)
     local originPart = throwInfo.Character:FindFirstChild(throwInfo.BodyPartName) or throwInfo.Character:FindFirstChild('HumanoidRootPart') :: Part
@@ -59,6 +72,8 @@ local function ThrowModel(throwInfo: ThrowInfo)
 
     modelClone.Parent = Workspace
     modelClone.PrimaryPart.CFrame = originPart.CFrame
+
+    ThrowDebounce(throwInfo.Character)
     
     CreateHitConnection(modelClone.PrimaryPart,throwInfo)
     Throw.AtPosition(modelClone.PrimaryPart,targetPosition,throwInfo.Duration)

@@ -2,6 +2,7 @@
 local State = require(script.Parent.State)
 local FacingBehind = require(script.Parent.FackingBehind)
 local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
+local Player = require(script.Parent.Player)
 
 local MAX_BLOCK_HEALTH = 3
 local BLOCK_DAMGE = 1
@@ -42,8 +43,14 @@ local function DeactivateBlock(character: Model)
 end
 
 local function BlockCooldown(character: Model)
-    task.delay(CombatCooldowns.Block,function()
+    local player: Player? = Player.Get(character)
+    if not player then return end
+
+    player:SetAttribute(CombatCooldowns.Block.ATTRIBUTE_NAME,true)
+
+    task.delay(CombatCooldowns.Block.DURATION,function()
         SetBlackHealth(character,MAX_BLOCK_HEALTH)
+        player:SetAttribute(CombatCooldowns.Block.ATTRIBUTE_NAME,false)
     end)
 end
 

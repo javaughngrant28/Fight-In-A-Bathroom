@@ -5,8 +5,8 @@ local ToolDetectore = require(script.Parent.Parent.Parent.Modules.ToolDetectore)
 local WeaponEnum = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponEnum)
 local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
 local Throttle = require(game.ReplicatedStorage.Shared.Libraries.Throttle)
-local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
 local CombatEnum = require(game.ReplicatedStorage.Shared.Data.Combat.CombatEnum)
+local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
 
 local Player = Players.LocalPlayer
 
@@ -16,7 +16,10 @@ local INDEX = CombatEnum.Throw
 local function onToolActivaed(event: RemoteEvent)
     local character = Player.Character :: Model
     local rootPart = character:FindFirstChild('HumanoidRootPart') :: Part
+    local throwAttributeCooldown = Player:GetAttribute(CombatCooldowns.Throw.ATTRIBUTE_NAME)
 
+    if throwAttributeCooldown and throwAttributeCooldown == true then return end
+    
     event:FireServer(INDEX,rootPart.CFrame.LookVector)
 end
 
@@ -33,7 +36,7 @@ ToolDetectore.AddedSignal:Connect(function(tool: Tool)
     local event = tool:FindFirstChildWhichIsA('RemoteEvent')
     
     Maid[tool.Name] = tool.Activated:Connect(function()
-        Throttle('Throw',CombatCooldowns.Throw,onToolActivaed,tool,event)
+        Throttle('Throw',0.4,onToolActivaed,tool,event)
     end)    
 end)
 

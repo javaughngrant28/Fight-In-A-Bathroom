@@ -13,17 +13,6 @@ PART.CanTouch = true
 PART.BrickColor = BrickColor.new('Really red')
 PART.Transparency = 0.8
 
-local function GetPlayer(Character: Model): Player?
-    local player: Player?
-
-    if Character then
-        player = Players:GetPlayerFromCharacter(Character)
-    end
-
-    return player
-end
-
-
 local function Damge(hit: BasePart, damge: number)
     if not hit.Parent:IsA("Model") then return end
     local Humanoid = hit:FindFirstChildWhichIsA('Humanoid') :: Humanoid

@@ -7,6 +7,7 @@ local StateEnum = require(game.ReplicatedStorage.Shared.Data.Character.StateEnum
 local BlockAnimation = require(script.BlockAnimation)
 local Observers = require(game.ReplicatedStorage.Shared.Libraries.Observers)
 local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
+local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
 
 local Maid: MaidModule.Maid = MaidModule.new()
 
@@ -20,6 +21,9 @@ end
 local function BlockPressRequest(remoteEvent: RemoteEvent)
     local Character = Player.Character
     local State = Character:GetAttribute(StateEnum.ATTRIBUTE_NAME)
+    local BlockAttributeCooldown = Player:GetAttribute(CombatCooldowns.Block.ATTRIBUTE_NAME)
+
+    if BlockAttributeCooldown and BlockAttributeCooldown == true then return end
     if State ~= StateEnum.None then return end
     Throttle('BlockPressed',PRESS_DELAY,FireEvent,true,remoteEvent)
 end

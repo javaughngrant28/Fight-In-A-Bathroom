@@ -7,6 +7,7 @@ local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
 local Throttle = require(game.ReplicatedStorage.Shared.Libraries.Throttle)
 local CombatEnum = require(game.ReplicatedStorage.Shared.Data.Combat.CombatEnum)
 local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
+local ThrowAnimation = require(script.Parent.ThrowAnimations)
 
 local Player = Players.LocalPlayer
 
@@ -21,6 +22,7 @@ local function onToolActivaed(event: RemoteEvent)
     if throwAttributeCooldown and throwAttributeCooldown == true then return end
     
     event:FireServer(INDEX,rootPart.CFrame.LookVector)
+    ThrowAnimation.Play()
 end
 
 local function ValidateTool(tool: Tool)

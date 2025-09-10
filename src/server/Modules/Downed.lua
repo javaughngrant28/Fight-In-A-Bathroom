@@ -22,6 +22,7 @@ local function DisableRagdollState(character: Model)
 end
 
 local function DownCharacter(character: Model)
+    if not character or character.Parent == nil then return end
     if character:HasTag(StateEnum.Downed) then return end
     character:AddTag(StateEnum.Downed)
     character:SetAttribute(StateEnum.ATTRIBUTE_NAME,StateEnum.Downed)
@@ -29,6 +30,7 @@ local function DownCharacter(character: Model)
 end
 
 local function DisabledDowned(character: Model)
+    if not character or character.Parent == nil then return end
     if not character:HasTag(StateEnum.Downed) then return end
     character:RemoveTag(StateEnum.Downed)
     character:SetAttribute(StateEnum.ATTRIBUTE_NAME,StateEnum.None)

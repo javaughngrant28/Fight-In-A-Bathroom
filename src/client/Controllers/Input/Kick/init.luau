@@ -1,23 +1,27 @@
+
+
+
+
+
 local Players = game:GetService("Players")
 
 local Player = Players.LocalPlayer
 
-local GrabAnimation = require(script.GrabAnimation)
 local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
 local CombatEnum = require(game.ReplicatedStorage.Shared.Data.Combat.CombatEnum)
 local Hitbox = require(script.Parent.Parent.Parent.Modules.Hitbox)
 local Throttle = require(game.ReplicatedStorage.Shared.Libraries.Throttle)
+local KickAnimation = require(script.AnimationKick)
 
 
-local INDEX = CombatEnum.Grab
+local INDEX = CombatEnum.Kick
 
 local function FilterFunction(target: Model): boolean
     local state = target:GetAttribute(CombatEnum.ATTRIBUTE_NAME)
-    return state == nil or state ~= CombatEnum.Downed
+    return state ~= nil and state == CombatEnum.Downed
 end
 
 local function FireHitDetection(remote: RemoteEvent)
-
     local hitboxInfo: Hitbox.HitboxInfo = {
         Character = Player.Character,
         Filter = FilterFunction,
@@ -30,19 +34,17 @@ local function FireHitDetection(remote: RemoteEvent)
 end
 
 
-local function GrabRequest(remote: RemoteEvent)
+local function KickRequest(remote: RemoteEvent)
     local state = Player.Character:GetAttribute(CombatEnum.ATTRIBUTE_NAME)
-    local grabCooldownAttribute = Player:GetAttribute(CombatCooldowns.Grab.ATTRIBUTE_NAME)
+    local KickCooldownAttribute = Player:GetAttribute(CombatCooldowns[INDEX].ATTRIBUTE_NAME)
     
     if state ~= CombatEnum.None then return end
-    if grabCooldownAttribute and grabCooldownAttribute == true then return end
+    if KickCooldownAttribute then return end
     
-    Throttle('GrabHitDetection',0.4,FireHitDetection,remote)
-    GrabAnimation.Play()
+    Throttle('KickHitDetection',0.4,FireHitDetection,remote)
+    KickAnimation.Play()
 end
 
-
-
 return {
-    Pressed = GrabRequest
+    Pressed = KickRequest
 }

@@ -7,6 +7,7 @@ local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.Combat
 local StateEnum = require(game.ReplicatedStorage.Shared.Data.Character.StateEnum)
 local CombatEnum = require(game.ReplicatedStorage.Shared.Data.Combat.CombatEnum)
 local Hitbox = require(script.Parent.Parent.Parent.Modules.Hitbox)
+local Throttle = require(game.ReplicatedStorage.Shared.Libraries.Throttle)
 
 
 local INDEX = CombatEnum.Grab
@@ -37,7 +38,7 @@ local function GrabRequest(remote: RemoteEvent)
     if state ~= StateEnum.None then return end
     if grabCooldownAttribute and grabCooldownAttribute == true then return end
     
-    FireHitDetection(remote)
+    Throttle('GrabHitDetection',0.4,FireHitDetection,remote)
     GrabAnimation.Play()
 end
 

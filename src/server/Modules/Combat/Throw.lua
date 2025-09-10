@@ -64,7 +64,7 @@ end
 
 local function ThrowModel(throwInfo: ThrowInfo)
     local originPart = throwInfo.Character:FindFirstChild(throwInfo.BodyPartName) or throwInfo.Character:FindFirstChild('HumanoidRootPart') :: Part
-    assert(originPart,`{throwInfo.Character} Has No Humanoid Root Part`)
+    assert(originPart,`{throwInfo.Character} {throwInfo.BodyPartName} No Root Part Not Found`)
     assert(throwInfo.Model.PrimaryPart,`{throwInfo.Model} Has No PrimaryPart`)
 
     local targetPosition = throwInfo.LookAt * throwInfo.Distance

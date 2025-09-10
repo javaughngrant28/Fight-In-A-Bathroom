@@ -71,7 +71,14 @@ function Weapon.Kick(self: WeaponInterface, player: Player)
 end
 
 function Weapon.Grab(self: WeaponInterface, player: Player,target: Model?)
-    
+    local weaponData = self.WEAPON_DATA
+    local cutseneInfo = weaponData.GrabCutscene
+    local Character =player.Character
+    assert(cutseneInfo,`{player} Wapon Has No Cutscene Data`)
+
+    if Character:GetAttribute(StateEnum.ATTRIBUTE_NAME) ~= StateEnum.None then return end
+
+    Combat.Grab.Fire(player.Character,target,cutseneInfo)
 end
 
 function Weapon.Weave(self: WeaponInterface, player: Player)

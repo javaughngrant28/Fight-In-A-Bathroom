@@ -17,7 +17,6 @@ type CustomAnimation = {
     Weave: WeaveAnimation?,
     Block: Animation?,
     Grab: Animation?,
-    GrabCutscene: CutseneData,
     Kick: Animation?,
     RunAnim: string?,
     WalkAnim: string?,
@@ -37,6 +36,7 @@ export type Data =  {
     Damage: number,
     Animations: CustomAnimation,
     Model: Model?,
+    GrabCutscene: CutseneData?,
     
     --Throwing Stuff
     AOE: boolean?,

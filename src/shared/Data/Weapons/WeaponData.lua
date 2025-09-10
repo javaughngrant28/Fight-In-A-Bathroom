@@ -24,15 +24,14 @@ local WeaponData: WeaponTypes.List = {
             JumpAnim = AnimationFolder.Jump1,
             Block = AnimationFolder.Block,
             Grab = AnimationFolder.Grab1,
-            GrabCutscene = {
-                Animation1 = AnimationFolder.Block,
-                Animation2 = AnimationFolder.Kick1,
-                DistanceBetween = 5,
-            },
             Kick = AnimationFolder.Kick1,
             Animation1 = AnimationFolder.Idle1,
             Animation2 = AnimationFolder.Idle1,
-
+        },
+        GrabCutscene = {
+            Animation1 = AnimationFolder.Block,
+            Animation2 = AnimationFolder.Kick1,
+            DistanceBetween = 5,
         },
     },
 
@@ -46,23 +45,12 @@ local WeaponData: WeaponTypes.List = {
         ThrowDuration = 0.4,
         ThrowDistance = 20,
         Animations = {
-            Punch = {
-                AnimationFolder.M1,
-                AnimationFolder.M2,
-            },
-            Weave = {
-                Left = AnimationFolder.Wave1,
-                Righ = AnimationFolder.Wave2,
-            },
+            Throw = AnimationFolder.Kick1,
             WalkAnim = AnimationFolder.Run1,
             FallAnim = AnimationFolder.Fall1,
             JumpAnim = AnimationFolder.Jump1,
-            Block = AnimationFolder.Block,
-            Grab = AnimationFolder.Grab1,
-            Kick = AnimationFolder.Kick1,
             Animation1 = AnimationFolder.Idle1,
             Animation2 = AnimationFolder.Idle1,
-
         },
     },
 }

@@ -1,4 +1,12 @@
 
+export type Values  = {
+    ATTRIBUTE_NAME: string,
+    DURATION: number,
+}
+
+export type Cooldown = {
+    string: Values
+}
 
 return {
     Block = {

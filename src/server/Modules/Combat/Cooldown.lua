@@ -1,5 +1,6 @@
 
 local CombatCooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldowns)
+local State = require(script.Parent.State)
 local Player = require(script.Parent.Player)
 
 local function CharacterAlive(character: Model): boolean
@@ -18,7 +19,14 @@ local function GetCooldownValues(type: string): CombatCooldowns.Values
     return values
 end
 
-local function StartCooldown(player: Player, humanoid: Humanoid, values: CombatCooldowns.Values)
+local function SetNewState(player: Player,newState: string?)
+    if not newState then return end
+    if not player.Character then return end
+    if State.Get(player.Character) == newState then return end
+    State.Set(player.Character,newState)
+end
+
+local function StartCooldown(player: Player, humanoid: Humanoid, values: CombatCooldowns.Values, newState: string?)
     local connection: RBXScriptConnection
     player:SetAttribute(values.ATTRIBUTE_NAME,true)
 
@@ -26,6 +34,7 @@ local function StartCooldown(player: Player, humanoid: Humanoid, values: CombatC
         player:SetAttribute(values.ATTRIBUTE_NAME,false)
         connection:Disconnect()
         connection = nil
+        SetNewState(player,newState)
     end)
 
     connection = humanoid.Died:Once(function()
@@ -33,11 +42,12 @@ local function StartCooldown(player: Player, humanoid: Humanoid, values: CombatC
         player:SetAttribute(values.ATTRIBUTE_NAME,false)
         connection:Disconnect()
         connection = nil
+        SetNewState(player,newState)
     end)
 end
 
 
-local function RequestCooldown(character: Model, type: string)
+local function RequestCooldown(character: Model, type: string, newState: string?)
     if not CharacterAlive(character) then return end
 
     local values = GetCooldownValues(type)
@@ -47,7 +57,7 @@ local function RequestCooldown(character: Model, type: string)
     if not player then return end
     if not humanoid then return end
 
-    local success, err = pcall(StartCooldown,player,humanoid,values)
+    local success, err = pcall(StartCooldown,player,humanoid,values,newState)
     if not success then warn(err) end
 end
 

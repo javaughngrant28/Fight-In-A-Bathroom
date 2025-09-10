@@ -3,7 +3,8 @@ type WeaponName = string
 type IsEquipped = boolean
 
 export type keybindType = {
-	['PC' | 'Xbox'] : string,
+	PC : string?,
+	Xbox : string,
 }
 
 export type keybindInterface = {

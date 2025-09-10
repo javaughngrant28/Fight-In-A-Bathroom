@@ -21,11 +21,15 @@ end
 
 function Punch(data: PunchData)
     local character = data.Player.Character
+    local targetCurrentState = State.Get(data.Target)
     
     if not character or character.Parent == nil then return end
     if not data.Target or data.Target.Parent == nil then return end
     if State.Get(character) ~= State.Enum.None then return end
-    if State.Get(data.Target) == State.Enum.Downed then return end
+    if targetCurrentState == State.Enum.Weave then return end
+    if targetCurrentState == State.Enum.Grab then return end
+    if targetCurrentState == State.Enum.Downed then return end
+
 
     local targetRootPart = data.Target:FindFirstChild('HumanoidRootPart') or data.Target.PrimaryPart :: BasePart
     local characterHumanoid = character:FindFirstChildWhichIsA('Humanoid',true) :: Humanoid

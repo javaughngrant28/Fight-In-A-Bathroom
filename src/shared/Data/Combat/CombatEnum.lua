@@ -2,10 +2,12 @@
 
 
 return {
+    ATTRIBUTE_NAME = 'State',
+    None = "None",
+    Downed = "Downed",
     Punch = "Punch",
     Kick = 'Kick',
-    WeaveLeft = 'Weave',
-    WeaveRight = 'Weave',
+    Weave = 'Weave',
     Block = 'Block',
     Grab = 'Grab',
     Throw = 'Throw',

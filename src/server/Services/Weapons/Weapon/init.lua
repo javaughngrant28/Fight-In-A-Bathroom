@@ -136,28 +136,31 @@ function Weapon._CreateInputContext(self: WeaponInterface)
 
     local inputTable = {
         [Combat.Enum.Punch] = {
-           table.unpack(keybinds.Punch),
+           keybinds.Punch.PC,
+           keybinds.Punch.Xbox,
            ScreenGui:FindFirstChild(PUNCH_BUTTON_NAME,true)
         },
         [Combat.Enum.Block] = {
-           table.unpack(keybinds.Block),
+           keybinds.Block.PC,
+           keybinds.Block.Xbox,
            ScreenGui:FindFirstChild(BLOCK_BUTTON_NAME,true)
         },
         [Combat.Enum.Kick] = {
-           table.unpack(keybinds.Kick),
+           keybinds.Kick.PC,
+           keybinds.Kick.Xbox,
            ScreenGui:FindFirstChild(KICK_BUTTON_NAME,true)
         },
         [Combat.Enum.Grab] = {
-           table.unpack(keybinds.Grab),
+           keybinds.Grab.PC,
+           keybinds.Grab.Xbox,
            ScreenGui:FindFirstChild(GRAB_BUTTON_NAME,true)
         },
-        [Combat.Enum.WeaveLeft] = {
-           table.unpack(keybinds.WeaveLeft),
+        [Combat.Enum.Weave] = {
+           keybinds.WeaveLeft.PC,
+           keybinds.WeaveLeft.Xbox,
+           keybinds.WeaveRight.PC,
+           keybinds.WeaveRight.Xbox,
            ScreenGui:FindFirstChild(WEAVE_LEFT_BUTTON_NAME,true)
-        },
-        [Combat.Enum.WeaveRight] = {
-           table.unpack(keybinds.WeaveRight),
-           ScreenGui:FindFirstChild(WEAVE_RIGHT_BUTTON_NAME,true)
         },
     }
 

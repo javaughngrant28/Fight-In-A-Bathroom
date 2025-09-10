@@ -9,7 +9,6 @@ local Combat = require(game.ServerScriptService.Modules.Combat)
 local InputUtil = require(game.ReplicatedStorage.Shared.Utils.InputUtil)
 local PlayerDataAPI = require(game.ServerScriptService.Services.Data.PlayerDataAPI)
 local TransformData = require(game.ReplicatedStorage.Shared.Modules.TransformData)
-local StateEnum = require(game.ReplicatedStorage.Shared.Data.Character.StateEnum)
 
 -- TODO: Get Actual button Names
 local BUTTON_SCREEN_NAME = 'Mobile Buttons'
@@ -66,8 +65,10 @@ function Weapon.Punch(self: WeaponInterface,player: Player, target: Model)
     Combat.Punch.Fire(PunchData)
 end
 
-function Weapon.Kick(self: WeaponInterface, player: Player)
-    
+function Weapon.Kick(self: WeaponInterface, player: Player, target: Model?)
+    local currentState = Combat.State.Get(player.Character)
+    if currentState ~= Combat.State.Enum.None then return end
+    Combat.Kick.Fire(player.Character,target)
 end
 
 function Weapon.Grab(self: WeaponInterface, player: Player,target: Model?)
@@ -76,13 +77,13 @@ function Weapon.Grab(self: WeaponInterface, player: Player,target: Model?)
     local Character =player.Character
     assert(cutseneInfo,`{player} Wapon Has No Cutscene Data`)
 
-    if Character:GetAttribute(StateEnum.ATTRIBUTE_NAME) ~= StateEnum.None then return end
+    if Character:GetAttribute(Combat.State.Enum.ATTRIBUTE_NAME) ~= Combat.State.Enum.None then return end
 
     Combat.Grab.Fire(player.Character,target,cutseneInfo)
 end
 
 function Weapon.Weave(self: WeaponInterface, player: Player)
-    
+    Combat.Weave.Fire(player.Character)
 end
 
 function Weapon.Block(self: WeaponInterface, player: Player, value: boolean)
@@ -160,9 +161,11 @@ function Weapon._CreateInputContext(self: WeaponInterface)
            keybinds.WeaveLeft.Xbox,
            keybinds.WeaveRight.PC,
            keybinds.WeaveRight.Xbox,
-           ScreenGui:FindFirstChild(WEAVE_LEFT_BUTTON_NAME,true)
+           ScreenGui:FindFirstChild(WEAVE_LEFT_BUTTON_NAME,true),
+           ScreenGui:FindFirstChild(WEAVE_RIGHT_BUTTON_NAME,true),
         },
     }
+    
 
     local inputContext = InputUtil.Create(self.WEAPON_NAME,inputTable)
     

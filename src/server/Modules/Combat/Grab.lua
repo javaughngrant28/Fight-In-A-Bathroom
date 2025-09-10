@@ -4,7 +4,9 @@ local Cooldowns = require(game.ReplicatedStorage.Shared.Data.Combat.CombatCooldo
 local Cutscene = require(game.ServerScriptService.Modules.Cutscene)
 local Player = require(script.Parent.Player)
 local Downed = require(game.ServerScriptService.Modules.Downed)
+local GetDistance = require(script.Parent.GetDistance)
 
+local MAX_DISTANCE = 6
 local ATTRIBUTE_NAME = Cooldowns.Grab.ATTRIBUTE_NAME
 
 local function ActivateCooldown(character: Model)
@@ -62,6 +64,8 @@ end
 
 local function GrabTarget(character: Model, target: Model, cutseneData: WeaponTypes.CutseneData)
     if CoolDownActive(character) then return end
+    if GetDistance.BetweenModels(character,target) > MAX_DISTANCE then return end
+
     ActivateCooldown(character)
 
     if target then 

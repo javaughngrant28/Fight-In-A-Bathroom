@@ -24,6 +24,11 @@ local WeaponData: WeaponTypes.List = {
             JumpAnim = AnimationFolder.Jump1,
             Block = AnimationFolder.Block,
             Grab = AnimationFolder.Grab1,
+            GrabCutscene = {
+                Animation1 = AnimationFolder.Block,
+                Animation2 = AnimationFolder.Kick1,
+                DistanceBetween = 5,
+            },
             Kick = AnimationFolder.Kick1,
             Animation1 = AnimationFolder.Idle1,
             Animation2 = AnimationFolder.Idle1,

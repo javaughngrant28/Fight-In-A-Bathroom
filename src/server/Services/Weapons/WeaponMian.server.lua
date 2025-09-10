@@ -12,7 +12,7 @@ local Weapon = require(script.Parent.Weapon)
 local CreateAllEquippedSignal = WeaponAPI._GetCreateAllEquippedSignal()
 local DestroyAllSignal = WeaponAPI._GetDestroyAllSignal()
 
-local function CreateWeapon(player: Player, weaponName: string)
+local function CreateWeapwon(player: Player, weaponName: string)
     local data = WeaponData[weaponName]
     assert(data,`{player} {weaponName}: Weapon Data Not Found`)
 
@@ -23,7 +23,7 @@ local function  CreateAllEquippedWeapons(player: Player)
     local InventoryData = PlayerDataAPI.GetInvetoryData(player)
     for weaponName: string, IsEquipped: boolean in InventoryData.Weapons do
         if not IsEquipped then continue end
-        CreateWeapon(player,weaponName)
+        CreateWeapwon(player,weaponName)
     end
 end
 

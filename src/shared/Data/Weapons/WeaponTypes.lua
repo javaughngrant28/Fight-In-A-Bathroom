@@ -4,12 +4,20 @@ type WeaveAnimation = {
     Right: Animation,
 }
 
+
+export type CutseneData = {
+    Animation1: Animation,
+    Animation2: Animation,
+    DistanceBetween: number,
+}
+
 type CustomAnimation = {
     Punch: {Animation}?,
     Throw: Animation?,
     Weave: WeaveAnimation?,
     Block: Animation?,
     Grab: Animation?,
+    GrabCutscene: CutseneData,
     Kick: Animation?,
     RunAnim: string?,
     WalkAnim: string?,

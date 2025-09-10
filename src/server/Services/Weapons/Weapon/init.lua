@@ -70,7 +70,7 @@ function Weapon.Kick(self: WeaponInterface, player: Player)
     
 end
 
-function Weapon.Grab(self: WeaponInterface, player: Player)
+function Weapon.Grab(self: WeaponInterface, player: Player,target: Model?)
     
 end
 
@@ -185,13 +185,14 @@ function Weapon._CreateModel(self: WeaponInterface)
     self._MAID['Model'] = modelClone
 end
 
+
 function Weapon._LoadAnimations(self: WeaponInterface)
     local animations = self.WEAPON_DATA.Animations
     local folder = Instance.new('Folder')
-    folder.Name = 'Animations'
 
     TransformData.ToInstance(folder,animations,true)
-
+    
+    folder.Name = 'Animations'
     folder.Parent = self.TOOL.INSTANCE
 end
 

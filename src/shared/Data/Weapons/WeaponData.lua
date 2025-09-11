@@ -55,4 +55,11 @@ local WeaponData: WeaponTypes.List = {
     },
 }
 
+WeaponData.Get = function(weaponName: string): WeaponTypes.Data
+    if not weaponName then error(`{weaponName} Invalid Weapon Name`) return end
+    local data = WeaponData[weaponName]
+    assert(data,`{weaponName} Does Not Have Data`)
+    return data
+end
+
 return WeaponData

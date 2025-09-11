@@ -3,7 +3,9 @@ local Signal = require(game.ReplicatedStorage.Shared.Libraries.Signal)
 local CreateAllEquippedSignal = Signal.new()
 local DestroyAllSignal = Signal.new()
 
-local API = {}
+local API = {
+    Drop = Signal.new()
+}
 
 function API._GetCreateAllEquippedSignal(): Signal.SignalType
     return CreateAllEquippedSignal

@@ -4,7 +4,7 @@ local PlayerDataAPI = require(game.ServerScriptService.Services.Data.PlayerDataA
 local TableUtil = require(game.ReplicatedStorage.Shared.Utils.TableUtil)
 local MaidModule = require(game.ReplicatedStorage.Shared.Libraries.Maid)
 local WeaponData = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponData)
-local WeaponEnum = require(game.ReplicatedStorage.Shared.Data.Weapons.WeaponEnum)
+local InventoryAPI = require(game.ServerScriptService.Services.Inventory.InventoryAPI)
 
 local Maid = MaidModule.new()
 local Weapon = require(script.Parent.Weapon)
@@ -35,5 +35,13 @@ local function DestroyAllWeapons(playerName: string)
 end
 
 
+local function DropWeapon(player: Player?, weaponName: string, position: string)
+    WeaponData.Get(weaponName)
+    if player then
+        InventoryAPI.Weapon.Remove(weaponName)
+    end
+end
+
+WeaponAPI.Drop:Connect(DropWeapon)
 CreateAllEquippedSignal:Connect(CreateAllEquippedWeapons)
 DestroyAllSignal:Connect(DestroyAllWeapons)

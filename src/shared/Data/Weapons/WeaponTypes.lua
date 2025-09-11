@@ -1,4 +1,6 @@
 
+local EffectTypes = require(script.Parent.Parent.Effects.EffectType)
+
 type WeaveAnimation = {
     Left: Animation,
     Right: Animation,
@@ -30,6 +32,9 @@ type CustomAnimation = {
 }
 
 
+
+
+
 export type Data =  {
     Type: string,
     Cost: number,
@@ -44,6 +49,8 @@ export type Data =  {
     ThrowOriginName: string?,
     ThrowDuration: number?,
     ThrowDistance: number?,
+    
+    EffectList: EffectTypes.EffectList
 }
 
 export type List = {

@@ -1,8 +1,10 @@
 
+local EffectTypes = require(game.ReplicatedStorage.Shared.Data.Effects.EffectType)
 local EffectAPI = require(game.ServerScriptService.Services.Effects.EffectAPI)
 local GetDistance = require(script.Parent.GetDistance)
 local State = require(script.Parent.State)
 local Block = require(script.Parent.Block)
+
 
 
 local MAX_DISTANCE = 8
@@ -11,7 +13,7 @@ type PunchData = {
     Player: Player, 
     Target: Model, 
     Damage: number, 
-    EffectName: string
+    EffectDate: EffectTypes.EffetData,
 }
 
 local function DealDamage(target: Model, damage: number)
@@ -40,7 +42,7 @@ function Punch(data: PunchData)
     if Block.BlockCheck(character) == true then return end
 
     DealDamage(data.Target,data.Damage)
-    EffectAPI.Create(data.EffectName,targetRootPart.CFrame.Position)
+    EffectAPI.Create(data.EffectDate)
 end
 
 

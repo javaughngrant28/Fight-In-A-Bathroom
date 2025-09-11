@@ -56,19 +56,35 @@ end
 
 
 function Weapon.Punch(self: WeaponInterface,player: Player, target: Model)
+    
+    local TargetRootPart = target:FindFirstChild('HumanoidRootPart') :: BasePart
+
     local PunchData = {
         Player = player, 
         Target = target,
         Damage = self.WEAPON_DATA.Damage,
-        EffectName = 'Hit1',
+        EffectDate = self.WEAPON_DATA.EffectList.Punch
     }
+
+    PunchData.EffectDate.Position = TargetRootPart.CFrame.Position
+
     Combat.Punch.Fire(PunchData)
 end
 
 function Weapon.Kick(self: WeaponInterface, player: Player, target: Model?)
     local currentState = Combat.State.Get(player.Character)
     if currentState ~= Combat.State.Enum.None then return end
-    Combat.Kick.Fire(player.Character,target)
+
+    local EffectData = nil
+    if target then
+        local TargetRootPart = target:FindFirstChild('HumanoidRootPart') :: BasePart
+        EffectData = self.WEAPON_DATA.EffectList.Kick
+        EffectData.EffectDate.Position = TargetRootPart.CFrame.Position
+    end
+
+
+
+    Combat.Kick.Fire(player.Character,target,EffectData)
 end
 
 function Weapon.Grab(self: WeaponInterface, player: Player,target: Model?)

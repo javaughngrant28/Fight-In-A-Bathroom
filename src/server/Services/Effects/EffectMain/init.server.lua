@@ -1,28 +1,27 @@
 
 local EffectAPI = require(script.Parent.EffectAPI)
+local EffectTypes = require(game.ReplicatedStorage.Shared.Data.Effects.EffectType)
 
 local CreatEffectSigal = EffectAPI._GetCreateSignal()
 local RemoveEffectSigal = EffectAPI._GetRemoveSignal()
 
 
-local Effects: {
-    [string]: { Create: (part: Part, ...any?)->(), Remove: (...any)->()?}
-} = {}
-
-local part = Instance.new("Part")
-part.Anchored = true
-part.Size = Vector3.new(0.2,0.2,0.2)
-part.Transparency = 0.8
-part.BrickColor = BrickColor.new('Really red')
+local Effects = {}:: {
+    [string]: { 
+        Create: (EffectData: EffectTypes.EffetData)->(), 
+        Remove: (...any)->()?
+    }
+}
 
 
 
-local function Create(effectName: string,...)
-    local EffectModule = Effects[effectName]
-    assert(EffectModule,`{effectName} Effect Module Not Found`)
+local function Create(EffectData: EffectTypes.EffetData)
+    if not EffectData then warn('Empty Effect Data') return end
 
-    local partClone = part:Clone()
-    EffectModule.Create(partClone,...)
+    local EffectModule = Effects[EffectData.EffectName]
+    assert(EffectModule,`{EffectData.EffectName} Effect Module Not Found`)
+
+    EffectModule.Create(EffectData.Asstes)
 end
 
 local function Remove(effectName: string,...)

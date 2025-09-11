@@ -33,6 +33,29 @@ local WeaponData: WeaponTypes.List = {
             Animation2 = AnimationFolder.Kick1,
             DistanceBetween = 5,
         },
+
+        EffectList = {
+            Punch = {
+                EffectName = 'Burst',
+                Asstes = {
+                    ParticleModelName = "Hit",
+                    SoundName = "Landed",
+                    Duration = 0.2,
+                    -- Position: vector3 <-- Should Be added
+                }
+            },
+
+            Kick = {
+                EffectName = 'Burst',
+                Asstes = {
+                    ParticleModelName = "Hit",
+                    SoundName = "Landed",
+                    Duration = 0.2,
+                    -- Position: vector3 <-- Should Be added
+                }
+            },
+        }
+        
     },
 
     SpitBall = {
